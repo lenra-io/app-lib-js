@@ -1,6 +1,6 @@
-import * as express from 'express';
+import express from 'express';
 import { writeFileSync } from 'fs';
-import { File, Handler } from './handler';
+import { File, Handler } from './handler.js';
 
 export async function serve(handler: Handler) {
     const app = express();
@@ -34,7 +34,8 @@ export async function serve(handler: Handler) {
         try {
             const result = await handler.handleRequest(req.body);
             if (result instanceof File) {
-                res.sendFile(result.path, { root: result.root });
+
+                res.sendFile(result.path);
             }
             else if (result) {
                 res.status(200).json(result);

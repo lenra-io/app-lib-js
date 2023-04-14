@@ -4,12 +4,14 @@ import { join } from 'path';
 const cwd = process.cwd();
 
 export interface Conf {
+    resources: string;
     src: string
     dist: string
 }
 
 const defaultConf = {
-    src: "src"
+    src: "src",
+    resources: "resources",
 };
 
 export async function loadConf(): Promise<Conf> {

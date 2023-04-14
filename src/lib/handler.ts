@@ -1,7 +1,7 @@
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { Api, requestApi } from './Api';
-import { data, event, ListenerGetter, Manifest, props, ViewGetter } from './types';
+import { Api, requestApi } from './Api.js';
+import { data, event, ListenerGetter, Manifest, props, ViewGetter } from './types.js';
 
 const RESOURCE_TYPE = "resource";
 const LISTENER_TYPE = "action";
@@ -17,17 +17,19 @@ type ViewBody = { view: string, data: data, props: props };
 type ListenerBody = { action: string, props: props, event: event, api: requestApi };
 type ResourceBody = { resource: string };
 
-const RESOURCES_PATH = "./resources/";
+const RESOURCES_PATH = "resources";
 
 export class Handler {
     private manifest: Manifest
     private viewGetter: ViewGetter
     private listenerGetter: ListenerGetter
+    private resourcesBasePath: string;
 
-    constructor(manifest: Manifest, viewGetter: ViewGetter, listenerGetter: ListenerGetter) {
+    constructor(manifest: Manifest, viewGetter: ViewGetter, listenerGetter: ListenerGetter, resourcesBasePath: string) {
         this.manifest = manifest;
         this.viewGetter = viewGetter;
         this.listenerGetter = listenerGetter;
+        this.resourcesBasePath = resourcesBasePath;
     }
 
     async handleRequest(body: object) {
@@ -64,7 +66,7 @@ export class Handler {
         // Checking file extensions according to which ones Flutter can handle
         if (!resource.match(/.*(\.jpeg|\.jpg|\.png|\.gif|\.webp|\.bmp|\.wbmp)$/))
             throw new Error(`Wrong file format for resource ${resource}`);
-        const file = new File(RESOURCES_PATH, resource);
+        const file = new File(join(this.resourcesBasePath, resource));
         if (!file.exists)
             throw new Error(`Resource file not found ${resource}`);
         return file;
@@ -72,14 +74,12 @@ export class Handler {
 }
 
 export class File {
-    root: string
     path: string
-    constructor(root: string, path: string) {
-        this.root = root;
+    constructor(path: string) {
         this.path = path;
     }
 
     get exists() {
-        return existsSync(join(this.root, this.path));
+        return existsSync(this.path);
     }
 }

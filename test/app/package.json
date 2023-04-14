@@ -1,0 +1,17 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Test app",
+  "main": "manifest.js",
+  "type": "module",
+  "scripts": {
+    "start": "app-lenra-server",
+    "index": "lenra-app-indexer",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@lenra/app-server": "file:../.."
+  }
+}

@@ -1,16 +1,13 @@
 #! /usr/bin/env node
 
-import * as fs from 'fs/promises';
 import { join } from 'path';
 import { Manifest } from '../lib';
-import { loadConf } from '../lib/conf';
-import { Handler } from '../lib/handler';
-import { serve } from '../lib/server';
+import { loadConf } from '../lib/conf.js';
+import { Handler } from '../lib/handler.js';
+import { serve } from '../lib/server.js';
 
 const args = process.argv.slice(2);
 const cwd = process.cwd();
-
-const SOURCE_DIR = "src";
 
 run();
 
@@ -25,10 +22,14 @@ async function run() {
     const manifest: Manifest = await import(join(cwd, baseDir, 'manifest.js'));
     console.log("manifest", manifest);
     // load app index.gen
-    const { getView, getListener } = await import(join(cwd, baseDir, 'index.gen.js'));
+    const index = await import(join(cwd, baseDir, 'index.gen.js'));
+    console.log(join(cwd, baseDir, 'index.gen.js'), index);
+    const { getView, getListener } = index;
     console.log("index.gen", getView, getListener);
+    const resourceBasePath = join(cwd, baseDir, conf.resources);
+    console.log("resourceBasePath", resourceBasePath);
     // create handler
-    const handler = new Handler(manifest, getView, getListener);
+    const handler = new Handler(manifest, getView, getListener, resourceBasePath);
     // create server
     serve(handler);
 }

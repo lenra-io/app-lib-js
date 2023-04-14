@@ -4,6 +4,7 @@
   "main": "dist/lib/index.js",
   "version": "1.0.0-alpha.1",
   "description": "Lenra's app server lib",
+  "type": "module",
   "keywords": [
     "Lenra",
     "app",
@@ -18,7 +19,7 @@
     "index": "npm run genBuild && node tmp/build.js",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "cd test/app && npm i && npm start"
   },
   "jest": {
     "preset": "ts-jest"
