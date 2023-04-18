@@ -2,7 +2,7 @@ import { existsSync } from 'fs';
 import { readdir, writeFile } from 'fs/promises';
 import { basename, join, relative } from 'path';
 import { Conf } from './conf';
-import { Listener, ListenerGetter, View, ViewGetter } from './types';
+import { Listener, View, } from './types';
 
 const cwd = process.cwd();
 
@@ -17,26 +17,12 @@ const modules = {};
 const viewsMap = {};
 const listenersMap = {};
 
-function unique(value, index, array) {
-    return array.indexOf(value) === index;
-}
-
-function normalizeModule(sourceDir: string, source: Source) {
-    source.module = relative(sourceDir, source.module).replace(/\\/g, "/");
-}
-
 function compareSources(a: Source, b: Source) {
     return a.name.localeCompare(b.name);
 }
 
 function sourceToNode(source: Source) {
     return `"${source.name}": {module: "${source.module}", key: "${source.key}"}`;
-}
-
-function sourceListToNodeMap(sources: Source[]) {
-    return `{
-    ${sources.map(sourceToNode).join(",\n\t")}
-}`;
 }
 
 function sourceListToNameTree(sources: Source[], base: string[] = []) {
@@ -82,7 +68,7 @@ export abstract class Indexer {
     }
 
     async indexSourceDir(conf: Conf) {
-        return join(cwd, conf.src);
+        return join(cwd, conf.dist);
     }
 
     async indexTargetDir(conf: Conf) {
@@ -95,7 +81,7 @@ export abstract class Indexer {
         const sourcePromises = files.map(async file => {
             const path = join(dir, file.name);
             if (file.isDirectory()) return this.indexDirectory(indexedMap, [...parts, file.name], path);
-            else if (file.isFile()) return this.indexFile(indexedMap, parts.slice(), path);
+            else if (file.isFile() && file.name.endsWith('.js')) return this.indexFile(indexedMap, parts.slice(), path);
             console.log("Not manageable file", path);
             return [];
         });
