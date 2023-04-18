@@ -1,6 +1,5 @@
 #! /usr/bin/env node
 
-import { Console } from 'console';
 import { join } from 'path';
 import { Manifest } from '../lib';
 import { loadConf } from '../lib/conf.js';
