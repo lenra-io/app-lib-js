@@ -1,6 +1,7 @@
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { Api, requestApi } from './Api.js';
+import { getListener, getView } from './indexer.js';
 import { data, event, ListenerGetter, Manifest, props, ViewGetter } from './types.js';
 
 const RESOURCE_TYPE = "resource";
@@ -21,14 +22,10 @@ const RESOURCES_PATH = "resources";
 
 export class Handler {
     private manifest: Manifest
-    private viewGetter: ViewGetter
-    private listenerGetter: ListenerGetter
     private resourcesBasePath: string;
 
-    constructor(manifest: Manifest, viewGetter: ViewGetter, listenerGetter: ListenerGetter, resourcesBasePath: string) {
+    constructor(manifest: Manifest, resourcesBasePath: string) {
         this.manifest = manifest;
-        this.viewGetter = viewGetter;
-        this.listenerGetter = listenerGetter;
         this.resourcesBasePath = resourcesBasePath;
     }
 
@@ -53,12 +50,12 @@ export class Handler {
     }
 
     private async handleView({ view, data, props }: ViewBody) {
-        const fx = await this.viewGetter(view);
+        const fx = await getView(view);
         return fx(data || [], props || {});
     }
 
     private async handleListener({ action, props, event, api }: ListenerBody) {
-        const fx = await this.listenerGetter(action);
+        const fx = await getListener(action);
         return fx(props || {}, event, new Api(api));
     }
 

@@ -6,9 +6,7 @@
     "outDir": "./dist",
     "experimentalDecorators": true,
     "sourceMap": true,
-    "types": [
-      "node"
-    ],
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "plugins": [
       {

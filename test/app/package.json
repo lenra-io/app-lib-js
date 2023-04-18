@@ -5,8 +5,8 @@
   "main": "manifest.js",
   "type": "module",
   "scripts": {
-    "start": "app-lenra-server",
-    "index": "lenra-app-indexer",
+    "start": "app-lenra start",
+    "index": "app-lenra index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
