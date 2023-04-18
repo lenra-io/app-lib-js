@@ -95,7 +95,7 @@ export abstract class Indexer {
         const sourcePromises = files.map(async file => {
             const path = join(dir, file.name);
             if (file.isDirectory()) return this.indexDirectory(indexedMap, [...parts, file.name], path);
-            else if (file.isFile()) return this.indexFile(indexedMap, parts, path);
+            else if (file.isFile()) return this.indexFile(indexedMap, parts.slice(), path);
             console.log("Not manageable file", path);
             return [];
         });
