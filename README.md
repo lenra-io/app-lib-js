@@ -31,6 +31,35 @@
 </div>
 
 
+<!-- USAGE EXAMPLES -->
+## Usage
+
+To add it to your Lenra app project:
+```console
+npm i @lenra/app-server
+```
+
+### Lenra API calls
+
+To call a Lenra API from a listener, just use the Api instance given as thrid parameter of your listener function.
+
+You can then call the data API like that to create a document:
+```js
+class CustomType extends Data {
+    /**
+     * @param {string} value
+     */
+  constructor(value) {
+    this.value = value;
+  }
+}
+
+const myDoc = await api.data.createDoc(new CustomType("Hello world"));
+```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
