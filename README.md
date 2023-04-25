@@ -34,16 +34,16 @@
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-To add it to your Lenra app project:
+To incorporate it into your Lenra app project, simply run the following command:
 ```console
 npm i @lenra/app-server
 ```
 
 ### Lenra API calls
 
-To call a Lenra API from a listener, just use the Api instance given as thrid parameter of your listener function.
+To call a Lenra API from a listener, utilize the `Api` instance provided as the third parameter in your listener function. 
 
-You can then call the data API like that to create a document:
+You can then create a document using the data API with the following code:
 ```js
 class CustomType extends Data {
     /**
