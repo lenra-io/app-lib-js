@@ -2,7 +2,7 @@
   "name": "@lenra/app-server",
   "types": "dist/lib/index.d.ts",
   "main": "dist/lib/index.js",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-beta.1",
   "description": "Lenra's app server lib",
   "type": "module",
   "keywords": [
@@ -19,7 +19,7 @@
     "index": "npm run genBuild && node tmp/build.js",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "jest",
+    "test": "npm run build && npm run testApp:i && npm run testApp:index",
     "testApp:install": "cd test/app && npm i",
     "testApp:i": "cd test/app && npm i",
     "testApp:index": "cd test/app && npm run index",
