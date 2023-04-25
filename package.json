@@ -29,7 +29,7 @@
     "preset": "ts-jest"
   },
   "dependencies": {
-    "@lenra/components": "~1.0.0-beta.4",
+    "@lenra/components": "~1.0.0-beta.5",
     "axios": "^0.27.1",
     "express": "^4.18.1"
   },
