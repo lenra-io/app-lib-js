@@ -37,6 +37,7 @@ export class Handler {
             case LISTENER_TYPE:
                 return this.handleListener(<ListenerBody>body);
             case VIEW_TYPE:
+                console.log(body);
                 return this.handleView(<ViewBody>body);
             case MANIFEST_TYPE:
                 return this.handleManifest();
@@ -51,7 +52,7 @@ export class Handler {
 
     private async handleView({ view, data, props, context }: ViewBody) {
         const fx = await getView(view);
-        return fx(data || [], props || {});
+        return fx(data || [], props || {}, context || {});
     }
 
     private async handleListener({ action, props, event, api }: ListenerBody) {
