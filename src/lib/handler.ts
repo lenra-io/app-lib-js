@@ -2,7 +2,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import { Api, requestApi } from './Api.js';
 import { getListener, getView } from './indexer.js';
-import { data, event, ListenerGetter, Manifest, props, ViewGetter } from './types.js';
+import { data, event, ListenerGetter, Manifest, props, ViewGetter, context } from './types.js';
 
 const RESOURCE_TYPE = "resource";
 const LISTENER_TYPE = "action";
@@ -14,7 +14,7 @@ const TYPES = [
     LISTENER_TYPE,
     VIEW_TYPE
 ];
-type ViewBody = { view: string, data: data, props: props };
+type ViewBody = { view: string, data: data, props: props, context: context };
 type ListenerBody = { action: string, props: props, event: event, api: requestApi };
 type ResourceBody = { resource: string };
 
@@ -37,6 +37,7 @@ export class Handler {
             case LISTENER_TYPE:
                 return this.handleListener(<ListenerBody>body);
             case VIEW_TYPE:
+                console.log(body);
                 return this.handleView(<ViewBody>body);
             case MANIFEST_TYPE:
                 return this.handleManifest();
@@ -49,9 +50,9 @@ export class Handler {
         return { manifest: this.manifest };
     }
 
-    private async handleView({ view, data, props }: ViewBody) {
+    private async handleView({ view, data, props, context }: ViewBody) {
         const fx = await getView(view);
-        return fx(data || [], props || {});
+        return fx(data || [], props || {}, context || {});
     }
 
     private async handleListener({ action, props, event, api }: ListenerBody) {

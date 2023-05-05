@@ -8,6 +8,7 @@ export type Listener = (props: props, event: event, api: Api) => any;
 export type data = any[];
 export type props = { [key: string]: any } | undefined
 export type event = { value: any } | undefined
+export type context = { [key: string]: any } | undefined
 
 
 export type Manifest = { rootView: string };
