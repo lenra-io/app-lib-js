@@ -2,7 +2,7 @@
   "name": "@lenra/app-server",
   "types": "dist/lib/index.d.ts",
   "main": "dist/lib/index.js",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Lenra's app server lib",
   "type": "module",
   "keywords": [
@@ -29,7 +29,7 @@
     "preset": "ts-jest"
   },
   "dependencies": {
-    "@lenra/components": "~1.0.0-beta.5",
+    "@lenra/components": "~1.0.0-beta.7",
     "axios": "^1.3.6",
     "express": "^4.18.1"
   },
