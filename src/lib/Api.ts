@@ -70,17 +70,17 @@ export class DataApi extends ApiPart {
     }
 
     startTransaction<T extends Data>(): Promise<T> {
-        return axios.post(`${this.api.url}/app/transaction`, this.options(true))
+        return axios.post(`${this.api.url}/app/transaction`, {}, this.options())
             .then(resp => this.api.transactionToken = resp.data);
     }
 
     commitTransaction<T extends Data>(): Promise<T> {
-        return axios.post(`${this.api.url}/app/transaction/commit`, this.options(true))
+        return axios.post(`${this.api.url}/app/transaction/commit`, {}, this.options(true))
             .then(resp => null);
     }
 
     abortTransaction<T extends Data>(): Promise<T> {
-        return axios.post(`${this.api.url}/app/transaction/abort`, this.options(true))
+        return axios.post(`${this.api.url}/app/transaction/abort`, {}, this.options(true))
             .then(resp => null);
     }
 
