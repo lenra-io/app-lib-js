@@ -12,6 +12,7 @@ export class Api {
     readonly url;
     readonly token;
     readonly data: DataApi;
+    transactionToken;
     constructor(req: requestApi) {
         this.url = req.url;
         this.token = req.token;
@@ -25,12 +26,20 @@ abstract class ApiPart {
         this.api = api;
     }
 
-    protected options() {
-        return { headers: this.headers() }
+    protected options(transaction = false) {
+        if (transaction) {
+            return { headers: this.transactionHeaders() }
+        } else {
+            return { headers: this.headers() }
+        }
     }
 
     protected headers() {
         return { Authorization: `Bearer ${this.api.token}` }
+    }
+
+    protected transactionHeaders() {
+        return { Authorization: `Bearer ${this.api.transactionToken}` }
     }
 }
 
@@ -40,24 +49,39 @@ export class DataApi extends ApiPart {
             .then(resp => DataApi.fromJson(coll, resp.data));
     }
 
-    createDoc<T extends Data>(doc: T): Promise<T> {
-        return axios.post(`${this.api.url}/app/colls/${DataApi.dataCollection(doc)}/docs`, doc, this.options())
+    createDoc<T extends Data>(doc: T, transaction = false): Promise<T> {
+        return axios.post(`${this.api.url}/app/colls/${DataApi.dataCollection(doc)}/docs`, doc, this.options(transaction))
             .then(resp => <T>resp.data);
     }
 
-    updateDoc<T extends Data>(doc: T): Promise<T> {
-        return axios.put(`${this.api.url}/app/colls/${DataApi.dataCollection(doc)}/docs/${doc._id}`, doc, this.options())
+    updateDoc<T extends Data>(doc: T, transaction = false): Promise<T> {
+        return axios.put(`${this.api.url}/app/colls/${DataApi.dataCollection(doc)}/docs/${doc._id}`, doc, this.options(transaction))
             .then(resp => <T>resp.data);
     }
 
-    deleteDoc<T extends Data>(doc: T): Promise<void> {
-        return axios.delete(`${this.api.url}/app/colls/${DataApi.dataCollection(doc)}/docs/${doc._id}`, this.options())
+    deleteDoc<T extends Data>(doc: T, transaction = false): Promise<void> {
+        return axios.delete(`${this.api.url}/app/colls/${DataApi.dataCollection(doc)}/docs/${doc._id}`, this.options(transaction))
             .then(resp => null);
     }
 
     find<T extends Data>(coll: Class<T>, query: any): Promise<T[]> {
         return axios.post(`${this.api.url}/app/colls/${DataApi.collectionName(coll)}/docs/find`, query, this.options())
             .then(resp => resp.data.map(d => DataApi.fromJson(coll, d)));
+    }
+
+    startTransaction<T extends Data>(): Promise<T> {
+        return axios.post(`${this.api.url}/app/transaction`, this.options(true))
+            .then(resp => this.api.transactionToken = resp.data);
+    }
+
+    commitTransaction<T extends Data>(): Promise<T> {
+        return axios.post(`${this.api.url}/app/transaction/commit`, this.options(true))
+            .then(resp => null);
+    }
+
+    abortTransaction<T extends Data>(): Promise<T> {
+        return axios.post(`${this.api.url}/app/transaction/abort`, this.options(true))
+            .then(resp => null);
     }
 
     static dataCollection<T extends Data>(data: T): string {
