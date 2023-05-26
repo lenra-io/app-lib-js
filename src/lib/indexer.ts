@@ -41,7 +41,7 @@ function sourceListToNameTree(sources: Source[], base: string[] = []) {
         else
             elements[key].children.push(source);
     });
-    const baseIndent = base.map(_ => '\t');
+    const baseIndent = base.map(_ => '\t').join('');
     return `{
 ${baseIndent}\t${keys.map(key => `"${key}": ${sourceNodeToNameTree(key, elements[key].main, elements[key].children, base)}`).join(",\n\t" + baseIndent)}
 ${baseIndent}}`;
