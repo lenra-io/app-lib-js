@@ -1,5 +1,5 @@
 import { Text, View } from "@lenra/components";
-import { views } from "../index.gen.js";
+import { views } from "../../index.gen.js";
 
 export default function () {
     return View(views.main.test);
