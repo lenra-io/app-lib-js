@@ -2,7 +2,7 @@
   "name": "@lenra/app-server",
   "types": "dist/lib/index.d.ts",
   "main": "dist/lib/index.js",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Lenra's app server lib",
   "type": "module",
   "keywords": [
