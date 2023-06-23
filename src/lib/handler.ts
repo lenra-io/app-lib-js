@@ -37,7 +37,6 @@ export class Handler {
             case LISTENER_TYPE:
                 return this.handleListener(<ListenerBody>body);
             case VIEW_TYPE:
-                console.log(body);
                 return this.handleView(<ViewBody>body);
             case MANIFEST_TYPE:
                 return this.handleManifest();
