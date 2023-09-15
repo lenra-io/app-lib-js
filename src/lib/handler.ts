@@ -5,7 +5,7 @@ import { getListener, getView } from './indexer.js';
 import { data, event, ListenerGetter, Manifest, props, ViewGetter, context } from './types.js';
 
 const RESOURCE_TYPE = "resource";
-const LISTENER_TYPE = "action";
+const LISTENER_TYPE = "listener";
 const VIEW_TYPE = "view";
 const MANIFEST_TYPE = "manifest";
 
@@ -15,7 +15,7 @@ const TYPES = [
     VIEW_TYPE
 ];
 type ViewBody = { view: string, data: data, props: props, context: context };
-type ListenerBody = { action: string, props: props, event: event, api: requestApi };
+type ListenerBody = { listener: string, props: props, event: event, api: requestApi };
 type ResourceBody = { resource: string };
 
 const RESOURCES_PATH = "resources";
@@ -54,8 +54,8 @@ export class Handler {
         return fx(data || [], props || {}, context || {});
     }
 
-    private async handleListener({ action, props, event, api }: ListenerBody) {
-        const fx = await getListener(action);
+    private async handleListener({ listener, props, event, api }: ListenerBody) {
+        const fx = await getListener(listener);
         return fx(props || {}, event, new Api(api));
     }
 
