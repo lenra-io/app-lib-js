@@ -47,7 +47,10 @@ abstract class AbstractDataApi extends ApiPart {
 
     updateDoc<T extends Data>(doc: T): Promise<T> {
         return axios.put(`${this.api.url}/app/colls/${DataApi.dataCollection(doc)}/docs/${doc._id}`, doc, this.options())
-            .then(resp => <T>resp.data);
+            .then(resp => {
+                console.log(resp);
+                return <T>resp.data
+            });
     }
 
     deleteDoc<T extends Data>(doc: T): Promise<void> {

@@ -46,7 +46,7 @@ export class Handler {
     }
 
     private handleManifest() {
-        return { manifest: this.manifest };
+        return this.manifest;
     }
 
     private async handleView({ view, data, props, context }: ViewBody) {
