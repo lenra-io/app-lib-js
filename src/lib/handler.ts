@@ -1,8 +1,9 @@
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { Api, requestApi } from './Api';
+import { Api } from './Api';
 import { getListener, getView } from './indexer';
-import { data, event, ListenerGetter, Manifest, props, ViewGetter, context } from './types';
+import { AppRequest, ListenerRequest, ResourceRequest, ViewRequest } from './gen/request.js';
+import { Manifest } from './gen/manifest.js';
 
 const RESOURCE_TYPE = "resource";
 const LISTENER_TYPE = "listener";
@@ -14,9 +15,6 @@ const TYPES = [
     LISTENER_TYPE,
     VIEW_TYPE
 ];
-type ViewBody = { view: string, data: data, props: props, context: context };
-type ListenerBody = { listener: string, props: props, event: event, api: requestApi };
-type ResourceBody = { resource: string };
 
 const RESOURCES_PATH = "resources";
 
@@ -29,15 +27,15 @@ export class Handler {
         this.resourcesBasePath = resourcesBasePath;
     }
 
-    async handleRequest(body: object) {
+    async handleRequest(body: AppRequest) {
         const type = TYPES.find(type => type in body) || MANIFEST_TYPE;
         switch (type) {
             case RESOURCE_TYPE:
-                return this.handleResource(<ResourceBody>body);
+                return this.handleResource(<ResourceRequest>body);
             case LISTENER_TYPE:
-                return this.handleListener(<ListenerBody>body);
+                return this.handleListener(<ListenerRequest>body);
             case VIEW_TYPE:
-                return this.handleView(<ViewBody>body);
+                return this.handleView(<ViewRequest>body);
             case MANIFEST_TYPE:
                 return this.handleManifest();
             default:
@@ -49,17 +47,17 @@ export class Handler {
         return this.manifest;
     }
 
-    private async handleView({ view, data, props, context }: ViewBody) {
+    private async handleView({ view, data, props, context }: ViewRequest) {
         const fx = await getView(view);
         return fx(data || [], props || {}, context || {});
     }
 
-    private async handleListener({ listener, props, event, api }: ListenerBody) {
+    private async handleListener({ listener, props, event, api }: ListenerRequest) {
         const fx = await getListener(listener);
         return fx(props || {}, event, new Api(api));
     }
 
-    private async handleResource({ resource }: ResourceBody): Promise<File> {
+    private async handleResource({ resource }: ResourceRequest): Promise<File> {
         // Checking file extensions according to which ones Flutter can handle
         if (!resource.match(/.*(\.jpeg|\.jpg|\.png|\.gif|\.webp|\.bmp|\.wbmp)$/))
             throw new Error(`Wrong file format for resource ${resource}`);
