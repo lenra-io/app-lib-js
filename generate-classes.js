@@ -14,10 +14,9 @@ async function generateClasses() {
   const componentList = [
     ...mainSchema.definitions["lenra-component"].oneOf,
     ...mainSchema.definitions["json-component"].oneOf,
-  ].map(c => c.$ref)
-  ;
+  ].map(c => c.$ref);
   // Generate not existing classes
-  let componentsExports = fs.existsSync(componentsFile) ? fs.readFileSync(componentsFile, "utf-8").split("\n").filter(line => !line.includes("export * from './components")) : [];
+  let componentsExports = fs.existsSync(componentsFile) ? fs.readFileSync(componentsFile, "utf-8").split("\n").filter(line => !line.startsWith("//")) : [];
   let componentsFileChanged = false;
 
   for (const ref of componentList) {
@@ -35,13 +34,13 @@ async function generateClasses() {
       // Creates the file
       console.log(`Generating ${classPath} file for ${schema.title}`);
       fs.writeFileSync(classPath, generateImplClass(schema, `${comp}.base.js`));
-      // Check if the file is imported in the main components file
-      const importComponent = `export * from './components/${comp}.js';`;
-      if (!componentsExports.includes(importComponent)) {
-        console.log(`Adding import for ${classPath}`);
-        componentsExports.push(importComponent);
-        componentsFileChanged = true;
-      }
+    }
+    // Check if the file is imported in the main components file
+    const importComponent = `export * from './components/${comp}.js';`;
+    if (!componentsExports.includes(importComponent)) {
+      console.log(`Adding import for ${classPath}`);
+      componentsExports.push(importComponent);
+      componentsFileChanged = true;
     }
   }
   if (componentsFileChanged) {
