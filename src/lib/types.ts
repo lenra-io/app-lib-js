@@ -1,16 +1,10 @@
-import { Component, IComponent } from "@lenra/components";
 import { Api } from "./Api";
+import { Component, IComponent } from "./components/component";
+import { ListenerRequest, ViewRequest } from "./gen/request";
 
-export type View = (data: any[] | undefined, props: props) => Component<IComponent> | IComponent;
+export type View = (data: ViewRequest['data'], props: ViewRequest['props'], context: ViewRequest['context']) => Component<IComponent> | IComponent;
 
-export type Listener = (props: props, event: event, api: Api) => any;
+export type Listener = (props: ListenerRequest['props'], event: ListenerRequest['props'], api: Api) => any;
 
-export type data = any[];
-export type props = { [key: string]: any } | undefined
-export type event = { value: any } | undefined
-export type context = { [key: string]: any } | undefined
-
-
-export type Manifest = { rootView: string };
 export type ViewGetter = (view: string) => Promise<View>;
 export type ListenerGetter = (listener: string) => Promise<Listener>;

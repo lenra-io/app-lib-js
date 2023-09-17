@@ -15,10 +15,10 @@
     ]
   },
   "include": [
-    "lib/**/*"
+    "src/**/*"
   ],
   "exclude": [
-    "lib/**/*.test.ts",
-    "lib/**/*.test.lib.ts"
+    "src/**/*.test.ts",
+    "src/**/*.test.lib.ts"
   ]
 }

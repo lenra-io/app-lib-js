@@ -1,8 +1,8 @@
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { Api, requestApi } from './Api.js';
-import { getListener, getView } from './indexer.js';
-import { data, event, ListenerGetter, Manifest, props, ViewGetter, context } from './types.js';
+import { Api, requestApi } from './Api';
+import { getListener, getView } from './indexer';
+import { data, event, ListenerGetter, Manifest, props, ViewGetter, context } from './types';
 
 const RESOURCE_TYPE = "resource";
 const LISTENER_TYPE = "listener";

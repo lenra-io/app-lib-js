@@ -2,10 +2,10 @@
 
 import { join } from 'path';
 import { Manifest } from '../lib';
-import { loadConf } from '../lib/conf.js';
-import { Handler } from '../lib/handler.js';
-import { Indexer } from '../lib/indexer.js';
-import { serve } from '../lib/server.js';
+import { loadConf } from '../lib/conf';
+import { Handler } from '../lib/handler';
+import { Indexer } from '../lib/indexer';
+import { serve } from '../lib/server';
 
 const args = process.argv.slice(2);
 const cwd = process.cwd();
@@ -28,12 +28,12 @@ async function run(command: string) {
 }
 
 async function start() {
-    // load package.json
+    // load packageon
     const conf = await loadConf();
     // get dir params
     const baseDir = conf.dist;
     // get user manifest
-    const manifest: Manifest = await import(join(cwd, baseDir, 'manifest.js'));
+    const manifest: Manifest = await import(join(cwd, baseDir, 'manifest'));
     // index views and listeners
     const indexPromise = Indexer.index(await loadConf());
     // define the resources base path

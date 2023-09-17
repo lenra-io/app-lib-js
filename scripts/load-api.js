@@ -5,6 +5,7 @@ const apis = [
     "internal-api.yml",
     "app-request.schema.json",
     "view-response.schema.json",
+    "manifest.schema.json",
 ];
 
 const apiDir = "api";

@@ -1,4 +1,4 @@
-import * as components from "../src/lib/styles/components";
+import * as components from "./index";
 import * as path from "path";
 import * as fs from "fs";
 

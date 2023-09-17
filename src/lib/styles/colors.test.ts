@@ -1,4 +1,4 @@
-const colors = require('./colors');
+import * as colors from './colors';
 
 describe('color', () => {
     test('black contrast', () => {

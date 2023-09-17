@@ -1,10 +1,10 @@
 import { Indexer } from "./indexer";
 
 describe("Indexer", () => {
-    // test(`stringify as name`, () => {
-    //     expect(JSON.stringify(NamedNode("test", { cle: "value" }))).toBe('"test"');
-    // });
-    // test(`get child`, () => {
-    //     expect(NamedNode("test", { cle: "value" }).cle).toBe("value");
-    // });
+    test.skip(`stringify as name`, () => {
+        // expect(JSON.stringify(NamedNode("test", { cle: "value" }))).toBe('"test"');
+    });
+    test.skip(`get child`, () => {
+        // expect(NamedNode("test", { cle: "value" }).cle).toBe("value");
+    });
 });
