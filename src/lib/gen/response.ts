@@ -2559,12 +2559,12 @@ export interface BoxDecoration {
  * Element of type BorderRadius
  */
 export interface BorderRadius {
-  topLeft?: ComponentsStylesBorderRadiusDefinitions;
-  topRight?: ComponentsStylesBorderRadiusDefinitions;
-  bottomLeft?: ComponentsStylesBorderRadiusDefinitions;
-  bottomRight?: ComponentsStylesBorderRadiusDefinitions;
+  topLeft?: Radius;
+  topRight?: Radius;
+  bottomLeft?: Radius;
+  bottomRight?: Radius;
 }
-export interface ComponentsStylesBorderRadiusDefinitions {
+export interface Radius {
   x?: number;
   y?: number;
 }
@@ -3170,7 +3170,7 @@ export interface TextFieldStyle {
    * The height of the cursor.
    */
   cursorHeight?: number;
-  cursorRadius?: Radius;
+  cursorRadius?: Radius1;
   /**
    * The width of the cursor.
    */
@@ -3192,7 +3192,7 @@ export interface TextFieldStyle {
 /**
  * The radius of the cursor.
  */
-export interface Radius {
+export interface Radius1 {
   x?: number;
   y?: number;
 }
