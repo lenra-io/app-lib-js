@@ -1,13 +1,15 @@
 import { View } from "@lenra/app";
 
 /**
- * @type {import("../../../dist/lib/gen/manifest.js").Exposer}
+ * @type {import("@lenra/app").Manifest}
  */
-export const lenra = {
-    routes: [
-        {
-            path: "/",
-            view: View("main"),
-        }
-    ]
+export default {
+    lenra: {
+        routes: [
+            {
+                path: "/",
+                view: View("main"),
+            }
+        ]
+    }
 };

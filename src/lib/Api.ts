@@ -1,7 +1,6 @@
-import axios from "axios";
 import { Data } from "./Data.js";
 import { ListenerRequest } from "./gen/request.js";
-import createClient, { FetchResponse } from "openapi-fetch";
+import createClient from "openapi-fetch";
 import { paths } from "./gen/api.js";
 
 export type Class<T> = { new(...args: any[]): T; };
