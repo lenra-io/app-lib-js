@@ -5,7 +5,7 @@ const cwd = process.cwd();
 
 export interface Conf {
     app?: string
-    views: string;
+    views: string
     listeners: string
     resources: string
     src: string
