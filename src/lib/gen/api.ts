@@ -23,7 +23,7 @@ export interface paths {
     /** Deletes a document from database */
     delete: operations["deleteDocumentById"];
   };
-  "/app-api/v1/data/colls/{coll}/docs/find": {
+  "/app-api/v1/data/colls/{coll}/find": {
     /** Finds documents in database */
     post: operations["findDocuments"];
   };

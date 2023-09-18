@@ -4,6 +4,7 @@ import { Api } from './Api';
 import { getListener, getView } from './indexer';
 import { AppRequest, ListenerRequest, ResourceRequest, ViewRequest } from './gen/request.js';
 import { Manifest } from './gen/manifest.js';
+import { ViewResponse } from './gen/response.js';
 
 const RESOURCE_TYPE = "resource";
 const LISTENER_TYPE = "listener";
@@ -47,7 +48,7 @@ export class Handler {
         return this.manifest;
     }
 
-    private async handleView({ view, data, props, context }: ViewRequest) {
+    private async handleView({ view, data, props, context }: ViewRequest): Promise<ViewResponse> {
         const fx = await getView(view);
         return fx(data || [], props || {}, context || {});
     }

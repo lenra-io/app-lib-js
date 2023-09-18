@@ -2,10 +2,11 @@
 
 import { Query } from "../gen/response";
 import { IView, ViewBaseImpl } from "../gen/components/view.base";
+import { ViewName } from "../gen/names";
 
 export { IView };
 
-export function View(name: IView['name']): ViewImpl {
+export function View(name: ViewName): ViewImpl {
   return new ViewImpl({
     _type: "view",
     name: name,
