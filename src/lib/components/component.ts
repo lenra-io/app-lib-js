@@ -1,4 +1,4 @@
-import { LenraComponent as IComponent } from "../gen/response";
+import { LenraComponent as IComponent } from "../gen/response.js";
 
 export { IComponent }
 

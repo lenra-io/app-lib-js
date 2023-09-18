@@ -31,19 +31,21 @@
     "generate:response:view:lenra": "node generate-lenra-components.js",
     "generate:internal-api": "openapi-typescript api/internal-api.yml -o src/lib/gen/api.ts",
     "generate:classes": "node scripts/generate-classes.js",
-    "test": "npm run test:unit && npm run build && npm run testApp:i && npm run testApp:index",
+    "test": "npm run build && npm run test:unit && npm run testApp:i && npm run testApp:index",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "testApp:install": "cd test/app && npm i",
     "testApp:i": "cd test/app && npm i",
     "testApp:index": "cd test/app && npm run index",
-    "testApp:start": "cd test/app && npm start"
+    "testApp:start": "cd test/app && npm start",
+    "postinstall": "node dist/bin/app-lenra.js index"
   },
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "moduleNameMapper": {
+      "^(\\.\\.?\\/.+)\\.js$": "$1"
+    }
   },
   "dependencies": {
-    "@lenra/components": "~1.0.0-beta.7",
-    "axios": "^1.3.6",
     "express": "^4.18.1",
     "openapi-fetch": "^0.7.6"
   },

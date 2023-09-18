@@ -1,4 +1,4 @@
-import { Indexer } from "./indexer";
+import { Indexer } from "./indexer.js";
 
 describe("Indexer", () => {
     test.skip(`stringify as name`, () => {

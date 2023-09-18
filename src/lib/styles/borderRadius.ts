@@ -1,4 +1,4 @@
-import { BorderRadius, Radius } from "../gen/response";
+import { BorderRadius, Radius } from "../gen/response.js";
 
 export function all(value: number | Radius): BorderRadius {
   if (typeof value === "number")

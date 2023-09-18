@@ -1,7 +1,7 @@
 import { test } from "@jest/globals";
-import { Container } from "./container";
-import { checkComponent } from "./component.test.lib";
-import { Button } from "./button";
+import { Container } from "./container.js";
+import { checkComponent } from "./component.test.lib.js";
+import { Button } from "./button.js";
 
 test("basic", () => {
   checkComponent(Container(), {

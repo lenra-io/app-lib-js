@@ -1,7 +1,7 @@
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { Api } from './Api';
-import { getListener, getView } from './indexer';
+import { Api } from './Api.js';
+import { getListener, getView } from './indexer.js';
 import { AppRequest, ListenerRequest, ResourceRequest, ViewRequest } from './gen/request.js';
 import { Manifest } from './gen/manifest.js';
 import { ViewResponse } from './gen/response.js';

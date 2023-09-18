@@ -1,4 +1,4 @@
-import * as colors from './colors';
+import * as colors from './colors.js';
 
 describe('color', () => {
     test('black contrast', () => {

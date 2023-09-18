@@ -1,11 +1,11 @@
 #! /usr/bin/env node
 
 import { join } from 'path';
-import { Manifest } from '../lib';
-import { loadConf } from '../lib/conf';
-import { Handler } from '../lib/handler';
-import { Indexer } from '../lib/indexer';
-import { serve } from '../lib/server';
+import { Manifest } from '../lib/index.js';
+import { loadConf } from '../lib/conf.js';
+import { Handler } from '../lib/handler.js';
+import { Indexer } from '../lib/indexer.js';
+import ExpressServer from '../lib/server.js';
 
 const args = process.argv.slice(2);
 const cwd = process.cwd();
@@ -33,16 +33,20 @@ async function start() {
     // get dir params
     const baseDir = conf.dist;
     // get user manifest
-    const manifest: Manifest = await import(join(cwd, baseDir, 'manifest'));
+    const manifest: Manifest = await import(join(cwd, baseDir, `manifest.${conf.indexer}`));
     // index views and listeners
-    const indexPromise = Indexer.index(await loadConf());
+    const indexPromise = Indexer.index(conf);
     // define the resources base path
     const resourceBasePath = join(cwd, baseDir, conf.resources);
     // create handler
     const handler = new Handler(manifest, resourceBasePath);
+    // get app class
+    const appClass = conf.app ? await import(join(cwd, baseDir, conf.app)) : ExpressServer;
+    // wait for indexing
     await indexPromise;
-    // create server
-    return serve(handler);
+    // create app
+    const app = new appClass(handler);
+    app.start();
 }
 
 async function index() {

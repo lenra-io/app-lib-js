@@ -1,5 +1,5 @@
-import { Component } from "./component";
-import { LenraComponent as IComponent } from "../gen/response";
+import { Component } from "./component.js";
+import { LenraComponent as IComponent } from "../gen/response.js";
 
 export function checkComponent<T extends IComponent>(
   component: Component<T>,

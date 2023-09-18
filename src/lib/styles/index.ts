@@ -1,4 +1,4 @@
-export * as colors from "./colors";
-export * as border from "./border";
-export * as borderRadius from "./borderRadius";
-export * as padding from "./padding";
+export * as colors from "./colors.js";
+export * as border from "./border.js";
+export * as borderRadius from "./borderRadius.js";
+export * as padding from "./padding.js";

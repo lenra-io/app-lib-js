@@ -1,8 +1,8 @@
 import { test } from "@jest/globals";
-import { Flex } from "./flex";
-import { checkComponent } from "./component.test.lib";
-import { Button } from "./button";
-import { Text } from "./text";
+import { Flex } from "./flex.js";
+import { checkComponent } from "./component.test.lib.js";
+import { Button } from "./button.js";
+import { Text } from "./text.js";
 
 test("empty", () => {
   checkComponent(Flex(), {

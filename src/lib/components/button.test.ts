@@ -1,4 +1,4 @@
-import { describe, expect, test } from "@jest/globals";
+import { test } from "@jest/globals";
 import { Button } from "./button";
 import { checkComponent } from "./component.test.lib";
 
