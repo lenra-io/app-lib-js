@@ -1,0 +1,23 @@
+{
+  "name": "ts-app",
+  "version": "1.0.0",
+  "description": "Test TypeScript app",
+  "main": "manifest.js",
+  "type": "module",
+  "scripts": {
+    "start": "app-lenra start",
+    "index": "npm run build && node node_modules/@lenra/app/dist/bin/app-lenra.js index",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npm run index"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@lenra/app": "file:../.."
+  },
+  "app-lenra": {
+    "indexer": "ts",
+    "resources": "../resources",
+    "dist": "dist"
+  }
+}

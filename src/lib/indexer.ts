@@ -1,8 +1,8 @@
 import { existsSync } from 'fs';
 import { readdir, writeFile } from 'fs/promises';
 import { basename, join, relative } from 'path';
-import { Conf } from './conf';
-import { Listener, View, } from './types';
+import { Conf } from './conf.js';
+import { ListenerHandler, ViewHandler } from './types.js';
 
 const cwd = process.cwd();
 
@@ -61,7 +61,7 @@ export abstract class Indexer {
         const listeners = await this.indexDirectory(listenersMap, [], join(sourceDir, conf.listeners));
 
         if (writeIndexFile) {
-            const indexPath = join(await this.indexTargetDir(conf), `index.gen.${this.ext}`);
+            const indexPath = await this.indexFilePath(conf);
             await writeFile(indexPath, await this.generateFileContent(views, listeners));
             console.log("Wrote", indexPath);
         }
@@ -71,11 +71,11 @@ export abstract class Indexer {
         return join(cwd, conf.dist);
     }
 
-    async indexTargetDir(conf: Conf) {
-        return join(cwd, conf.src);
+    async indexFilePath(conf: Conf) {
+        return join(cwd, "node_modules/@lenra/app/dist/lib/gen/names.d.ts");
     }
 
-    protected async indexDirectory(indexedMap: { [key: string]: View | Listener }, parts: string[], dir: string): Promise<Source[]> {
+    protected async indexDirectory(indexedMap: { [key: string]: ViewHandler | ListenerHandler }, parts: string[], dir: string): Promise<Source[]> {
         if (!existsSync(dir)) return [];
         const files = await readdir(dir, { withFileTypes: true });
         const sourcePromises = files.map(async file => {
@@ -139,8 +139,8 @@ export class JavaScriptIndexer extends Indexer {
     async generateFileContent(views: Source[], listeners: Source[]): Promise<string> {
         views.sort(compareSources);
         listeners.sort(compareSources);
-        return `export const views = ${sourceListToNameTree(views)};
-export const listeners = ${sourceListToNameTree(listeners)};
+        return `export type ViewName = ${views.map(v => `"${v.name}"`).join(" | ")};
+export type ListenerName = ${listeners.map(l => `"${l.name}"`).join(" | ")};
 `;
     }
 

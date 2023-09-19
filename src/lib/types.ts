@@ -1,16 +1,16 @@
-import { Component, IComponent } from "@lenra/components";
-import { Api } from "./Api";
+import { Api } from "./Api.js";
+import { Component, IComponent } from "./components/component.js";
+import { AppRequest, ListenerRequest, ViewRequest } from "./gen/request.js";
+import { Handler } from "./handler.js";
 
-export type View = (data: any[] | undefined, props: props) => Component<IComponent> | IComponent;
+export abstract class App {
+    constructor(protected readonly handler: Handler) { }
+    abstract start(request?: AppRequest): void;
+}
 
-export type Listener = (props: props, event: event, api: Api) => any;
+export type ViewHandler = (data: ViewRequest['data'], props: ViewRequest['props'], context: ViewRequest['context']) => Component<IComponent> | IComponent;
 
-export type data = any[];
-export type props = { [key: string]: any } | undefined
-export type event = { value: any } | undefined
-export type context = { [key: string]: any } | undefined
+export type ListenerHandler = (props: ListenerRequest['props'], event: ListenerRequest['props'], api: Api) => any;
 
-
-export type Manifest = { rootView: string };
-export type ViewGetter = (view: string) => Promise<View>;
-export type ListenerGetter = (listener: string) => Promise<Listener>;
+export type ViewGetter = (view: string) => Promise<ViewHandler>;
+export type ListenerGetter = (listener: string) => Promise<ListenerHandler>;
