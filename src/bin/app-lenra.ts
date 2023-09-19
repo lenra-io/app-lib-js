@@ -44,7 +44,7 @@ async function start() {
     // create handler
     const handler = new Handler(manifest, resourceBasePath);
     // get app class
-    const appClass = conf.app ? await import(join(cwd, baseDir, conf.app)) : ExpressServer;
+    const appClass = conf.app ? (await import(join(cwd, baseDir, conf.app))).default : ExpressServer;
     // wait for indexing
     await indexPromise;
     // create app
