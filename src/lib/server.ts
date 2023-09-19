@@ -41,7 +41,6 @@ export default class ExpressServer extends App {
             try {
                 const result = await this.handler.handleRequest(req.body);
                 if (result instanceof File) {
-
                     res.sendFile(result.path);
                 }
                 else if (result) {
