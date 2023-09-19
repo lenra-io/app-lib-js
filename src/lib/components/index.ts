@@ -3,6 +3,7 @@ export * from './actionable.js';
 export * from './button.js';
 export * from './carousel.js';
 export * from './checkbox.js';
+export * from './component.js';
 export * from './container.js';
 export * from './dropdownButton.js';
 export * from './flex.js';
