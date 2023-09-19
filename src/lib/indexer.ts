@@ -82,7 +82,6 @@ export abstract class Indexer {
             const path = join(dir, file.name);
             if (file.isDirectory()) return this.indexDirectory(indexedMap, [...parts, file.name], path);
             else if (file.isFile() && file.name.endsWith('.js')) return this.indexFile(indexedMap, parts.slice(), path);
-            console.log("Not manageable file", path);
             return [];
         });
         return (await Promise.all(sourcePromises)).flat();
