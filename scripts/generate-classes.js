@@ -16,7 +16,7 @@ async function generateClasses() {
     ...mainSchema.definitions["json-component"].oneOf,
   ].map(c => c.$ref);
   // Generate not existing classes
-  let componentsExports = fs.existsSync(componentsFile) ? fs.readFileSync(componentsFile, "utf-8").split("\n").filter(line => !line.startsWith("//")) : [];
+  let componentsExports = fs.existsSync(componentsFile) ? fs.readFileSync(componentsFile, "utf-8").split("\n").filter(line => !line.startsWith("//")) : ["export * from './component.js';"];
   let componentsFileChanged = false;
 
   for (const ref of componentList) {
