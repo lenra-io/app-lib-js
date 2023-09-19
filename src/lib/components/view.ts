@@ -3,6 +3,8 @@
 import { Query } from "../gen/response.js";
 import { IView, ViewBaseImpl } from "../gen/components/view.base.js";
 import { ViewName } from "../gen/names.js";
+import { Data } from "../Data.js";
+import { Class, DataApi } from "../Api.js";
 
 export { IView };
 
@@ -15,13 +17,17 @@ export function View(name: ViewName): ViewImpl {
 
 export class ViewImpl extends ViewBaseImpl {
   // Add here custom implementations
+  find<T extends Data>(coll: Class<T>, query: Query, projection?: { [k: string]: unknown })
   find(coll: string, query: Query, projection?: { [k: string]: unknown })
   find(find: IView['find'])
-  find(param1: string | IView['find'], query?: Query, projection?: { [k: string]: unknown }) {
+  find(param1: string | Class<Data> | IView['find'], query?: Query, projection?: { [k: string]: unknown }) {
+    if (typeof param1 !== "string" && 'new' in param1 && typeof param1.new === "function") {
+      param1 = DataApi.collectionName(<Class<Data>>param1);
+    }
     if (typeof param1 === "string") { // param 1 is now guaranteed to be string
       query = query!;
       return super.find({ coll: param1, query, projection });
     }
-    return super.find(param1);
+    return super.find(<IView['find']>param1);
   }
 }
