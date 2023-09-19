@@ -64,7 +64,8 @@
     "node-fetch": "^3.3.2",
     "openapi-typescript": "^6.6.1",
     "ts-jest": "^29.0.5",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "typescript-parser": "^2.6.1"
   },
   "author": "Lenra",
   "license": "MIT",
