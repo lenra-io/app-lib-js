@@ -54,7 +54,7 @@ class CustomType extends Data {
   }
 }
 
-const myDoc = await api.data.createDoc(new CustomType("Hello world"));
+const myDoc = await api.data.coll(CustomType).createDoc(new CustomType("Hello world"));
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>

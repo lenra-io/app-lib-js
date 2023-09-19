@@ -1,5 +1,5 @@
 {
-  "name": "@lenra/app-server",
+  "name": "@lenra/app",
   "types": "dist/lib/index.d.ts",
   "main": "dist/lib/index.js",
   "version": "0.0.0",
@@ -19,25 +19,50 @@
     "index": "npm run genBuild && node tmp/build.js",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "npm run build && npm run testApp:i && npm run testApp:index",
-    "testApp:install": "cd test/app && npm i",
-    "testApp:i": "cd test/app && npm i",
-    "testApp:index": "cd test/app && npm run index",
-    "testApp:start": "cd test/app && npm start"
+    "load-api": "node scripts/load-api.js",
+    "generate": "npm run load-api && npm run generate:manifest && npm run generate:request && npm run generate:response && npm run generate:internal-api && npm run generate:classes",
+    "generate:manifest": "node scripts/generate-interfaces.js manifest.schema.json manifest.ts",
+    "generate:request": "node scripts/generate-interfaces.js app-request.schema.json request.ts",
+    "generate:request:view": "quicktype -s schema api/view-request.schema.json -o src/lib/gen/viewRequest.ts  --just-types --explicit-unions --prefer-unions",
+    "generate:request:listener": "quicktype -s schema api/listener-request.schema.json -o src/lib/gen/listenerRequest.ts  --just-types --explicit-unions --prefer-unions",
+    "generate:request:resource": "quicktype -s schema api/resource-request.schema.json -o src/lib/gen/resourceRequest.ts  --just-types --explicit-unions --prefer-unions",
+    "generate:response": "node scripts/generate-interfaces.js view-response.schema.json response.ts",
+    "generate:response:view:json": "quicktype -s schema api/json-view-response.schema.json -o src/lib/gen/jsonViewResponse.ts  --just-types --explicit-unions --prefer-unions",
+    "generate:response:view:lenra": "node generate-lenra-components.js",
+    "generate:internal-api": "openapi-typescript api/internal-api.yml -o src/lib/gen/api.ts",
+    "generate:classes": "node scripts/generate-classes.js",
+    "test": "npm run build && npm run test:unit && npm run testApp",
+    "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "testApp": "npm run testApp:js && npm run testApp:ts",
+    "testApp:js": "npm run testApp:js:i && npm run testApp:js:index",
+    "testApp:js:install": "cd test/js-app && npm i",
+    "testApp:js:i": "npm run testApp:js:install",
+    "testApp:js:index": "cd test/js-app && npm run index",
+    "testApp:js:start": "cd test/js-app && npm start",
+    "testApp:ts": "npm run testApp:ts:i && npm run testApp:ts:index",
+    "testApp:ts:install": "cd test/js-app && npm i",
+    "testApp:ts:i": "npm run testApp:js:install",
+    "testApp:ts:index": "cd test/js-app && npm run index",
+    "testApp:ts:start": "cd test/js-app && npm start"
   },
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "moduleNameMapper": {
+      "^(\\.\\.?\\/.+)\\.js$": "$1"
+    }
   },
   "dependencies": {
-    "@lenra/components": "~1.0.0-beta.7",
-    "axios": "^1.3.6",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "openapi-fetch": "^0.7.6"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.13.0",
     "jest": "^29.4.1",
+    "json-schema-to-typescript": "^13.1.1",
+    "node-fetch": "^3.3.2",
+    "openapi-typescript": "^6.6.1",
     "ts-jest": "^29.0.5",
     "typescript": "^5.0.4"
   },

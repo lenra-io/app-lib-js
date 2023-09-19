@@ -4,9 +4,10 @@ import { join } from 'path';
 const cwd = process.cwd();
 
 export interface Conf {
-    views: string;
-    listeners: string;
-    resources: string;
+    app?: string
+    views: string
+    listeners: string
+    resources: string
     src: string
     dist: string
     indexer: string
