@@ -8,12 +8,7 @@
 /**
  * The Lenra application manifest
  */
-export type Manifest = Manifest1 & Manifest2;
-export type Manifest2 = {
-  [k: string]: unknown;
-};
-
-export interface Manifest1 {
+export interface Manifest {
   lenra?: Exposer;
   json?: Exposer1;
 }
