@@ -33,7 +33,7 @@ async function start() {
     // get dir params
     const baseDir = conf.dist;
     // get user manifest
-    let manifest: Manifest = await import(join(cwd, baseDir, `manifest.${conf.indexer}`));
+    let manifest: Manifest = await import(join(cwd, baseDir, `manifest.js`));
     if ("default" in manifest) {
         manifest = manifest.default;
     }
