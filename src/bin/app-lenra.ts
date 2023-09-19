@@ -33,7 +33,10 @@ async function start() {
     // get dir params
     const baseDir = conf.dist;
     // get user manifest
-    const manifest: Manifest = await import(join(cwd, baseDir, `manifest.${conf.indexer}`));
+    let manifest: Manifest = await import(join(cwd, baseDir, `manifest.${conf.indexer}`));
+    if ("default" in manifest) {
+        manifest = manifest.default;
+    }
     // index views and listeners
     const indexPromise = Indexer.index(conf);
     // define the resources base path
