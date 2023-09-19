@@ -21,12 +21,16 @@ export class ViewImpl extends ViewBaseImpl {
   find(coll: string, query: Query, projection?: { [k: string]: unknown })
   find(find: IView['find'])
   find(param1: string | Class<Data> | IView['find'], query?: Query, projection?: { [k: string]: unknown }) {
-    if (typeof param1 !== "string" && 'new' in param1 && typeof param1.new === "function") {
+    if (typeof param1 === "function") {
       param1 = DataApi.collectionName(<Class<Data>>param1);
     }
     if (typeof param1 === "string") { // param 1 is now guaranteed to be string
       query = query!;
-      return super.find({ coll: param1, query, projection });
+      const find: IView['find'] = { coll: param1, query };
+      if (projection) {
+        find.projection = projection;
+      }
+      return super.find(find);
     }
     return super.find(<IView['find']>param1);
   }
