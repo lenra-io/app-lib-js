@@ -122,7 +122,13 @@ export abstract class Indexer {
 
     protected abstract get ext(): string;
 
-    protected abstract generateFileContent(views: Source[], listeners: Source[]): Promise<string>;
+    async generateFileContent(views: Source[], listeners: Source[]): Promise<string> {
+        views.sort(compareSources);
+        listeners.sort(compareSources);
+        return `export type ViewName = ${views.map(v => `"${v.name}"`).join(" | ")};
+export type ListenerName = ${listeners.map(l => `"${l.name}"`).join(" | ")};
+`;
+    }
 
     static async index(conf: Conf, writeIndexFile: boolean = false) {
         const indexer = indexers[conf.indexer];
@@ -135,14 +141,6 @@ export class JavaScriptIndexer extends Indexer {
     get ext(): string {
         return "js";
     }
-    async generateFileContent(views: Source[], listeners: Source[]): Promise<string> {
-        views.sort(compareSources);
-        listeners.sort(compareSources);
-        return `export type ViewName = ${views.map(v => `"${v.name}"`).join(" | ")};
-export type ListenerName = ${listeners.map(l => `"${l.name}"`).join(" | ")};
-`;
-    }
-
 }
 
 export class TypeScriptIndexer extends JavaScriptIndexer {
