@@ -142,6 +142,7 @@ class TypedCollection<D extends Data, T extends Class<D>> {
 
     async createDoc(doc: D): Promise<D> {
         const resp = await this.collection.createDoc(doc);
+        console.log(resp);
         return AbstractDataApi.fromJson(this.collClass, resp.data);
     }
 
