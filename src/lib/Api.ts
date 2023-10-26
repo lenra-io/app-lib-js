@@ -129,6 +129,16 @@ class Collection {
     }
 }
 
+function handleError(response){
+    if(response.response.status < 200 || response.response.status >= 300){
+        let error:any = new Error(response.error?.message ?? `An unknown error occured.`);
+        error.status = response.response?.status;
+        error.reason = response.error?.reason;
+
+        throw error;
+    }
+}
+
 class TypedCollection<D extends Data, T extends Class<D>> {
     private readonly collection: Collection;
     constructor(api: AbstractDataApi, private readonly collClass: T) {
@@ -137,31 +147,44 @@ class TypedCollection<D extends Data, T extends Class<D>> {
 
     async getDoc(id: string): Promise<D> {
         const resp = await this.collection.getDoc(id);
+
+        handleError(resp);
+
         return AbstractDataApi.fromJson(this.collClass, resp.data);
     }
 
     async createDoc(doc: D): Promise<D> {
         const resp = await this.collection.createDoc(doc);
-        console.log(resp);
+
+        handleError(resp);
+
         return AbstractDataApi.fromJson(this.collClass, resp.data);
     }
 
     async updateDoc(doc: D): Promise<D> {
         const resp = await this.collection.updateDoc(doc);
+
+        handleError(resp);
+
         return AbstractDataApi.fromJson(this.collClass, resp.data);
     }
 
     async deleteDoc(doc: D): Promise<void> {
-        await this.collection.deleteDoc(doc._id);
+        const resp = await this.collection.deleteDoc(doc._id);
+        handleError(resp);
     }
 
     async find(query: any): Promise<D[]> {
         const resp = await this.collection.find(query, {});
+
+        handleError(resp);
+
         return resp.data.map((d: any) => AbstractDataApi.fromJson(this.collClass, d));
     }
 
     async updateMany(filter: any, update: any): Promise<void> {
-        await this.collection.updateMany(filter, update);
+        const resp = await this.collection.updateMany(filter, update);
+        handleError(resp);
     }
 }
 
