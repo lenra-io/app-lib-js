@@ -3,8 +3,8 @@ import path from "path";
 
 const apis = [
     "internal-api.yml",
-    "app-request.schema.json",
-    "view-response.schema.json",
+    "requests/app.schema.json",
+    "responses/view.schema.json",
     "manifest.schema.json",
 ];
 
@@ -29,6 +29,7 @@ async function loadApis() {
     apis.forEach(async (api) => {
         const apiPath = path.resolve(apiDir, api);
         console.log(`Loading ${apiPath} file`);
+        // TODO: The release files are not here anymore, they are in a tar.gz file
         const response = await fetch(`https://github.com/lenra-io/api/releases/download/v${apiVersion}/${api}`);
         fs.writeFileSync(apiPath, await response.text(), "utf-8");
     });

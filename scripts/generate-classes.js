@@ -9,7 +9,7 @@ const componentsFile = path.resolve(componentsImplDir, "index.ts");
 generateClasses();
 
 async function generateClasses() {
-  const schemaPath = path.resolve("api", "view-response.schema.json");
+  const schemaPath = path.resolve("api", "view.schema.json");
   const mainSchema = JSON.parse(fs.readFileSync(schemaPath, "utf-8"));
   const componentList = [
     ...mainSchema.definitions["lenra-component"].oneOf,
