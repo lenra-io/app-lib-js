@@ -9,11 +9,11 @@ const componentsFile = path.resolve(componentsImplDir, "index.ts");
 generateClasses();
 
 async function generateClasses() {
-  const schemaPath = path.resolve("api", "view-response.schema.json");
+  const schemaPath = path.resolve("api", "view.schema.json");
   const mainSchema = JSON.parse(fs.readFileSync(schemaPath, "utf-8"));
   const componentList = [
-    ...mainSchema.definitions["lenra-component"].oneOf,
-    ...mainSchema.definitions["json-component"].oneOf,
+    ...mainSchema.definitions["components.lenra"].oneOf,
+    ...mainSchema.definitions["components.json"].oneOf,
   ].map(c => c.$ref);
   // Generate not existing classes
   let componentsExports = fs.existsSync(componentsFile) ? fs.readFileSync(componentsFile, "utf-8").split("\n").filter(line => !line.startsWith("//")) : ["export * from './component.js';"];
