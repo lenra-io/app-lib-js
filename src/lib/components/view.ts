@@ -15,10 +15,18 @@ export function View(name: ViewName): ViewImpl {
   });
 }
 
+interface IFind {
+  coll: string,
+  query: Query,
+  projection? : { [k: string]: unknown },
+  limit: number,
+  skip: number,
+}
+
 export class ViewImpl extends ViewBaseImpl {
   // Add here custom implementations
   find<T extends Data>(coll: Class<T>, query: Query, projection?: { [k: string]: unknown }): this
-  find(coll: string, query: Query, projection?: { [k: string]: unknown }): this
+  find({coll, query, projection, limit, skip}: IFind): this
   find(find: IView['find']): this
   find(param1: string | Class<Data> | IView['find'], query?: Query, projection?: { [k: string]: unknown }): this {
     if (typeof param1 === "function") {

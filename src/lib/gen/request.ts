@@ -18,10 +18,7 @@ export interface ViewRequest {
    * The requested view name
    */
   view: string;
-  /**
-   * The JSON exposer definition of the application
-   */
-  data?: Document[];
+  data?: FindResult;
   props?: Props;
   /**
    * The context of current the view rendering
@@ -31,10 +28,9 @@ export interface ViewRequest {
   };
 }
 /**
- * A document in MongoDB database
+ * The JSON exposer definition of the application
  */
-export interface Document {
-  _id: string;
+export interface FindResult {
   [k: string]: unknown;
 }
 /**

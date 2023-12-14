@@ -54,7 +54,6 @@ export interface components {
      * @description A document in MongoDB database
      */
     "data.document": {
-      _id: string;
       [key: string]: unknown;
     };
     /**
@@ -62,6 +61,13 @@ export interface components {
      * @description Mongo data query
      */
     "data.query": {
+      [key: string]: unknown;
+    };
+    /**
+     * FindResult
+     * @description Find query result.
+     */
+    "data.result.find": {
       [key: string]: unknown;
     };
     /**
@@ -216,7 +222,11 @@ export interface operations {
       content: {
         "application/json": {
           query: components["schemas"]["data.query"];
-          projection?: Record<string, never>;
+          projection?: {
+            [key: string]: unknown;
+          } | null;
+          limit?: number | null;
+          skip?: number | null;
         };
       };
     };
@@ -224,7 +234,7 @@ export interface operations {
       /** @description Documents found */
       200: {
         content: {
-          "application/json": components["schemas"]["data.document"][];
+          "application/json": components["schemas"]["data.result.find"];
         };
       };
     };

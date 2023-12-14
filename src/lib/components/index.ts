@@ -20,6 +20,7 @@ export * from './slider.js';
 export * from './stack.js';
 export * from './statusSticker.js';
 export * from './text.js';
+export * from './textField.js';
 export * from './textfield.js';
 export * from './toggle.js';
 export * from './view.js';
