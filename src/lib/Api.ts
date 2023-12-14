@@ -156,7 +156,8 @@ class TypedCollection<D extends Data, T extends Class<D>> {
 
     async find(query: any): Promise<D[]> {
         const resp = await this.collection.find(query, {});
-        return resp.data.map((d: any) => AbstractDataApi.fromJson(this.collClass, d));
+        return [];
+        // return resp.data.map((d: any) => AbstractDataApi.fromJson(this.collClass, d));
     }
 
     async updateMany(filter: any, update: any): Promise<void> {
