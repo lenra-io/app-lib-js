@@ -6,6 +6,10 @@ import { ListenerHandler, ViewHandler } from './types.js';
 
 const cwd = process.cwd();
 
+const systemListeners = [
+    "@lenra:navTo"
+];
+
 interface Source {
     module: string
     key: string
@@ -126,7 +130,9 @@ export abstract class Indexer {
         views.sort(compareSources);
         listeners.sort(compareSources);
         return `export type ViewName = ${views.map(v => `"${v.name}"`).join(" | ")};
-export type ListenerName = ${listeners.map(l => `"${l.name}"`).join(" | ")};
+export type SystemListenerName = ${systemListeners.map(l => `"${l}"`).join(" | ")};
+export type AppListenerName = ${listeners.map(l => `"${l.name}"`).join(" | ")};
+export type ListenerName = ${['AppListenerName', 'SystemListenerName'].join(" | ")};
 `;
     }
 
