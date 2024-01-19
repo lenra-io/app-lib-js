@@ -2300,15 +2300,15 @@ export type LenraComponent3 =
  */
 export type ImageRepeat = "noRepeat" | "repeat" | "repeatX" | "repeatY";
 /**
- * This interface was referenced by `JsonViewResponse`'s JSON-Schema definition
- * via the `patternProperty` ".+".
+ * The Lenra application JSON view response
  */
+export type JsonViewResponse = string | number | boolean | JsonArray | JsonComponent | JsonObject;
 export type JsonValue = string | number | boolean | JsonArray | JsonComponent | JsonObject;
-export type JsonArray = JsonValue[];
 /**
  * Any component
  */
 export type JsonComponent = Listener;
+export type JsonArray = JsonValue[];
 
 /**
  * Element of type Actionable
@@ -4218,12 +4218,6 @@ export interface Listener15 {
    */
   name: string;
   props?: Props;
-}
-/**
- * The Lenra application JSON view response
- */
-export interface JsonViewResponse {
-  [k: string]: JsonValue;
 }
 export interface JsonObject {
   [k: string]: JsonValue;

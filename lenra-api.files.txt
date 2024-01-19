@@ -1,0 +1,4 @@
+requests/app.schema.json
+responses/view.schema.json
+internal-api.yml
+manifest.schema.json
