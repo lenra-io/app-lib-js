@@ -67,7 +67,22 @@ const myDoc = await api.data.coll(CustomType).createDoc(new CustomType("Hello wo
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please open an issue with the tag "enhancement".
-Don't forget to give the project a star if you liked it! Thanks again!
+Don't forget to give the project a star if you liked it! Thanks again!generate
+
+### Generate classes
+
+A part of this lib is generated from the [Lenra API](https://github.com/lenra-io/api).
+To generate the classes, run the following commands:
+
+```bash
+# Load API
+## With wget
+wget https://github.com/lenra-io/api/releases/latest/download/load-api.sh -O - -q | bash
+## With curl
+curl -fsSL https://github.com/lenra-io/api/releases/latest/download/load-api.sh | bash
+# generate
+npm run generate
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

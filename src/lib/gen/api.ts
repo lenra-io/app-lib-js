@@ -12,7 +12,7 @@ export interface paths {
   "/app-api/v1/data/colls/{coll}/docs": {
     /** Gets documents from database */
     get: operations["getDocuments"];
-    /** Creates one document in database */
+    /** Creates a document in database */
     post: operations["createDocument"];
   };
   "/app-api/v1/data/colls/{coll}/docs/{id}": {
@@ -26,10 +26,6 @@ export interface paths {
   "/app-api/v1/data/colls/{coll}/find": {
     /** Finds documents in database */
     post: operations["findDocuments"];
-  };
-  "/app-api/v1/data/colls/{coll}/insertMany": {
-    /** Inserts many documents in database */
-    post: operations["insertManyDocuments"];
   };
   "/app-api/v1/data/colls/{coll}/updateMany": {
     /** Updates many documents in database */
@@ -58,6 +54,7 @@ export interface components {
      * @description A document in MongoDB database
      */
     "data.document": {
+      _id: string;
       [key: string]: unknown;
     };
     /**
@@ -65,13 +62,6 @@ export interface components {
      * @description Mongo data query
      */
     "data.query": {
-      [key: string]: unknown;
-    };
-    /**
-     * FindResult
-     * @description Find query result.
-     */
-    "data.result.find": {
       [key: string]: unknown;
     };
     /**
@@ -127,7 +117,7 @@ export interface operations {
       };
     };
   };
-  /** Creates one document in database */
+  /** Creates a document in database */
   createDocument: {
     parameters: {
       path: {
@@ -226,13 +216,7 @@ export interface operations {
       content: {
         "application/json": {
           query: components["schemas"]["data.query"];
-          projection?: {
-            [key: string]: unknown;
-          } | null;
-          options?: {
-            limit?: number | null;
-            skip?: number | null;
-          };
+          projection?: Record<string, never>;
         };
       };
     };
@@ -240,36 +224,7 @@ export interface operations {
       /** @description Documents found */
       200: {
         content: {
-          "application/json": components["schemas"]["data.result.find"];
-        };
-      };
-    };
-  };
-  /** Inserts many documents in database */
-  insertManyDocuments: {
-    parameters: {
-      path: {
-        /** @description The documents collection name */
-        coll: string;
-      };
-    };
-    /** @description The documents to create */
-    requestBody: {
-      content: {
-        "application/json": {
-          documents: {
-              [key: string]: unknown;
-            }[];
-        };
-      };
-    };
-    responses: {
-      /** @description Documents inserted */
-      200: {
-        content: {
-          "application/json": {
-            insertedIds: string[];
-          };
+          "application/json": components["schemas"]["data.document"][];
         };
       };
     };
