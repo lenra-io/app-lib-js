@@ -42,7 +42,7 @@ class Collection {
                 },
                 headers: this.api.headers()
             }
-        );
+        ).then(resp => resp.data);
     }
 
     createDoc(doc: any) {
@@ -57,7 +57,7 @@ class Collection {
                 body: doc,
                 headers: this.api.headers()
             }
-        );
+        ).then(resp => resp.data);
     }
 
     updateDoc(doc: any) {
@@ -73,7 +73,7 @@ class Collection {
                 body: doc,
                 headers: this.api.headers()
             }
-        );
+        ).then(resp => resp.data);
     }
 
     deleteDoc(id: string) {
@@ -88,7 +88,7 @@ class Collection {
                 },
                 headers: this.api.headers()
             }
-        );
+        ).then(resp => resp.data);
     }
 
     // Mongo functions
@@ -107,7 +107,24 @@ class Collection {
                 },
                 headers: this.api.headers()
             }
-        );
+        ).then(resp => resp.data);
+    }
+
+    insertMany(documents: any[]) {
+        return this.api.api.client.POST(
+            "/app-api/v1/data/colls/{coll}/insertMany",
+            {
+                params: {
+                    path: {
+                        coll: this.name
+                    }
+                },
+                body: {
+                    documents
+                },
+                headers: this.api.headers()
+            }
+        ).then(resp => resp.data);
     }
 
     updateMany(filter: any, update: any) {
@@ -125,7 +142,7 @@ class Collection {
                 },
                 headers: this.api.headers()
             }
-        );
+        ).then(resp => resp.data);
     }
 }
 
@@ -137,17 +154,17 @@ class TypedCollection<D extends Data, T extends Class<D>> {
 
     async getDoc(id: string): Promise<D> {
         const resp = await this.collection.getDoc(id);
-        return AbstractDataApi.fromJson(this.collClass, resp.data);
+        return AbstractDataApi.fromJson(this.collClass, resp);
     }
 
     async createDoc(doc: D): Promise<D> {
         const resp = await this.collection.createDoc(doc);
-        return AbstractDataApi.fromJson(this.collClass, resp.data);
+        return AbstractDataApi.fromJson(this.collClass, resp);
     }
 
     async updateDoc(doc: D): Promise<D> {
         const resp = await this.collection.updateDoc(doc);
-        return AbstractDataApi.fromJson(this.collClass, resp.data);
+        return AbstractDataApi.fromJson(this.collClass, resp);
     }
 
     async deleteDoc(doc: D): Promise<void> {
@@ -156,7 +173,11 @@ class TypedCollection<D extends Data, T extends Class<D>> {
 
     async find(query: any): Promise<D[]> {
         const resp = await this.collection.find(query, {});
-        return resp.data.map((d: any) => AbstractDataApi.fromJson(this.collClass, d));
+        return resp.map((d: any) => AbstractDataApi.fromJson(this.collClass, d));
+    }
+
+    async insertMany(documents: D[]): Promise<void> {
+        await this.collection.insertMany(documents);
     }
 
     async updateMany(filter: any, update: any): Promise<void> {
