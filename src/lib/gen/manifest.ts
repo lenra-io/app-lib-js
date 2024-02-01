@@ -28,6 +28,10 @@ export interface Exposer {
 export interface Route {
   path: string;
   view: View;
+  /**
+   * The roles that can access this route
+   */
+  roles?: string[];
 }
 /**
  * Element of type view

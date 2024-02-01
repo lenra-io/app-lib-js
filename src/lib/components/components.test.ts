@@ -2,7 +2,7 @@ import * as components from "./index";
 import * as path from "path";
 import * as fs from "fs";
 
-const schemaPath = path.resolve("api", "view-response.schema.json");
+const schemaPath = path.resolve("api", "responses/view.schema.json");
 
 test("lenra-components API loaded", () => {
   expect(fs.existsSync(schemaPath)).toBe(true);
@@ -12,8 +12,8 @@ describe("Managed component", () => {
   const componentsSchema = JSON.parse(fs.readFileSync(schemaPath, "utf-8"));
   const mainSchema = JSON.parse(fs.readFileSync(schemaPath, "utf-8"));
   const componentList = [
-    ...mainSchema.definitions["lenra-component"].oneOf,
-    ...mainSchema.definitions["json-component"].oneOf,
+    ...mainSchema.definitions["components.lenra"].oneOf,
+    ...mainSchema.definitions["components.json"].oneOf,
   ].map(c => c.$ref);
 
   describe.each(componentList)("%s", (ref) => {
