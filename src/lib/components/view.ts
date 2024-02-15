@@ -17,10 +17,19 @@ export function View(name: ViewName): ViewImpl {
 
 export class ViewImpl extends ViewBaseImpl {
   // Add here custom implementations
-  find<T extends Data>(coll: Class<T>, query: Query, projection?: { [k: string]: unknown }): this
-  find(coll: string, query: Query, projection?: { [k: string]: unknown }): this
+  find<T extends Data>(coll: Class<T>, query: Query, projection?: { [k: string]: unknown }, options?: {
+    limit?: number | null;
+    skip?: number | null;
+  }): this
+  find(coll: string, query: Query, projection?: { [k: string]: unknown }, options?: {
+    limit?: number | null;
+    skip?: number | null;
+  }): this
   find(find: IView['find']): this
-  find(param1: string | Class<Data> | IView['find'], query?: Query, projection?: { [k: string]: unknown }): this {
+  find(param1: string | Class<Data> | IView['find'], query?: Query, projection?: { [k: string]: unknown }, options?: {
+    limit?: number | null;
+    skip?: number | null;
+  }): this {
     if (typeof param1 === "function") {
       param1 = DataApi.collectionName(<Class<Data>>param1);
     }
