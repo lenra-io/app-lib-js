@@ -4124,6 +4124,7 @@ export interface Find {
   coll: string;
   query: Query;
   projection?: Projection;
+  options?: Options;
 }
 /**
  * Mongo data query
@@ -4136,6 +4137,13 @@ export interface Query {
  */
 export interface Projection {
   [k: string]: unknown;
+}
+/**
+ * Mongo data query options
+ */
+export interface Options {
+  limit?: number;
+  skip?: number;
 }
 /**
  * Element of type Wrap

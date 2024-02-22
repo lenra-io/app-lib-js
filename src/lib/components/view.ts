@@ -39,6 +39,9 @@ export class ViewImpl extends ViewBaseImpl {
       if (projection) {
         find.projection = projection;
       }
+      if (options) {
+        find.options = options;
+      }
       return super.find(find);
     }
     return super.find(<IView['find']>param1);
