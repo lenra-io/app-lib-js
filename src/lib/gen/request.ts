@@ -9,6 +9,12 @@
  * The Lenra application request
  */
 export type AppRequest = ViewRequest | ListenerRequest | ResourceRequest;
+/**
+ * The JSON exposer definition of the application
+ */
+export type FindResult = {
+  [k: string]: unknown;
+}[];
 
 /**
  * The Lenra application view request
@@ -26,12 +32,6 @@ export interface ViewRequest {
   context?: {
     [k: string]: unknown;
   };
-}
-/**
- * The JSON exposer definition of the application
- */
-export interface FindResult {
-  [k: string]: unknown;
 }
 /**
  * Parameters passed to the listener

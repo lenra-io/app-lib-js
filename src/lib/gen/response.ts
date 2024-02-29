@@ -4144,6 +4144,9 @@ export interface Projection {
 export interface Options {
   limit?: number;
   skip?: number;
+  sort?: {
+    [k: string]: unknown;
+  };
 }
 /**
  * Element of type Wrap
