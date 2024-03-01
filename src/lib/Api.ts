@@ -2,6 +2,7 @@ import { Data } from "./Data.js";
 import { ListenerRequest } from "./gen/request.js";
 import createClient from "openapi-fetch";
 import { paths } from "./gen/api.js";
+import { Options } from "./gen/manifest.js";
 
 export type Class<T> = { new(...args: any[]): T; };
 
@@ -92,7 +93,7 @@ class Collection {
     }
 
     // Mongo functions
-    find(query: any, projection: any) {
+    find(query: {[key: string]: any}, projection?: {[key: string]: any}, options?: Options) {
         return this.api.api.client.POST(
             "/app-api/v1/data/colls/{coll}/find",
             {
@@ -103,7 +104,8 @@ class Collection {
                 },
                 body: {
                     query,
-                    projection
+                    projection,
+                    options
                 },
                 headers: this.api.headers()
             }
@@ -171,8 +173,8 @@ class TypedCollection<D extends Data, T extends Class<D>> {
         await this.collection.deleteDoc(doc._id);
     }
 
-    async find(query: any): Promise<D[]> {
-        const resp = await this.collection.find(query, {});
+    async find(query: {[key: string]: any}, projection?: {[key: string]: any}, options?: Options): Promise<D[]> {
+        const resp = await this.collection.find(query, projection, options);
         return resp.map((d: any) => AbstractDataApi.fromJson(this.collClass, d));
     }
 

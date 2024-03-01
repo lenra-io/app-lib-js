@@ -68,6 +68,15 @@ export interface components {
       [key: string]: unknown;
     };
     /**
+     * Options
+     * @description Mongo data query options
+     */
+    "data.options": {
+      limit?: number | null;
+      skip?: number | null;
+      sort?: unknown;
+    };
+    /**
      * FindResult
      * @description Find query result.
      */
@@ -229,10 +238,7 @@ export interface operations {
           projection?: {
             [key: string]: unknown;
           } | null;
-          options?: {
-            limit?: number | null;
-            skip?: number | null;
-          };
+          options?: components["schemas"]["data.options"];
         };
       };
     };
