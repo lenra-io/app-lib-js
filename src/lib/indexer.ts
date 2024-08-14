@@ -129,10 +129,11 @@ export abstract class Indexer {
     async generateFileContent(views: Source[], listeners: Source[]): Promise<string> {
         views.sort(compareSources);
         listeners.sort(compareSources);
-        return `export type ViewName = ${views.map(v => `"${v.name}"`).join(" | ")};
+        return `type CompletableString = string & {};
+export type ViewName = ${views.map(v => `"${v.name}"`).join(" | ")} | CompletableString;
 export type SystemListenerName = ${systemListeners.map(l => `"${l}"`).join(" | ")};
 export type AppListenerName = ${listeners.map(l => `"${l.name}"`).join(" | ")};
-export type ListenerName = ${['AppListenerName', 'SystemListenerName'].join(" | ")};
+export type ListenerName = ${['AppListenerName', 'SystemListenerName'].join(" | ")} | CompletableString;
 `;
     }
 
